@@ -21,7 +21,7 @@ class Config(BaseModel):
 
 @dataclass
 class TimeZoneConfig:
-    local_time_zone = pytz.timezone('UTC')
+    local_time_zone = pytz.timezone('Etc/GMT-8')
     dest_time_zone = pytz.timezone('Etc/GMT-8')
     datetime_format = "%Y-%m-%d %H:%M:%S"
 

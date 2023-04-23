@@ -48,8 +48,7 @@ logger_format: str = (
     "{message}"
 )
 
-# 服务器落后北京时间 8h
-now = datetime.now() + timedelta(hours=8)
+now = datetime.now()
 now = datetime.strftime(now, "%Y-%m-%d_%H:%M:%S")
 logger.remove(logger_id)
 logger.add(
