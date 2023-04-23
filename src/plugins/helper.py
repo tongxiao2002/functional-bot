@@ -26,6 +26,7 @@ async def send_help_msgs(args: Message = CommandArg()):
         MessageSegment.text("/weather 查询当天某地天气\n\n"),
         MessageSegment.text("/event 查询已注册的事件\n"),
         MessageSegment.text("/event.list 查询已注册的事件\n"),
-        MessageSegment.text("/event.register 注册待提醒的事件"),
+        MessageSegment.text("/event.register 注册待提醒的事件\n"),
+        MessageSegment.text("/event.delete 删除已注册的事件"),
     ])
     await helper.finish(help_msgs)

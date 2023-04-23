@@ -29,6 +29,13 @@ async def list_events(event: Event, args: Message = CommandArg()):
         await event_lister.finish(Message(reply_msgs))
 
     events = json.load(open(event_file, "r"))
+    if len(events) == 0:
+        # 没有事件
+        reply_msgs = [
+            MessageSegment.text("暂时还没有待提醒的事件哦.")
+        ]
+        await event_lister.finish(Message(reply_msgs))
+
     reply_msgs = []
     for idx, (uuid, event) in enumerate(events.items()):
         msg_for_event = [
@@ -38,14 +45,10 @@ async def list_events(event: Event, args: Message = CommandArg()):
             MessageSegment.text(f"提醒时间：{event['lead_time']}\n"),
         ]
         reply_msgs.extend(msg_for_event)
+
     # get rid of '\n'
     if reply_msgs:
         reply_msgs[-1] = MessageSegment.text(f"提醒时间：{event['lead_time']}")
-    else:
-        # 没有事件
-        reply_msgs = [
-            MessageSegment.text("暂时还没有待提醒的事件哦.")
-        ]
     await event_lister.finish(Message(reply_msgs))
 
 event_base_matcher.append_handler(list_events)

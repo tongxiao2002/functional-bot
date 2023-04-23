@@ -26,16 +26,25 @@ event_rgst = event_cmd_group.command("register", aliases={'注册事件'})
 datetime_format = TimeZoneConfig.datetime_format
 
 
-def timestr_to_datetime(timestr: str, time_type: str = "time_point"):
-    def _remove_spaces(timestr: str):
-        ptn = re.compile(r'\s+')
-        return re.sub(ptn, '', timestr)
+def timestr_preprocess(timestr: str):
+    """
+    时间字符串预处理
+    """
+    # 删除空白
+    ptn = re.compile(r'\s+')
+    timestr = re.sub(ptn, '', timestr)
+    # 允许 "提前5分钟" 这种输入
+    if timestr.startswith('提前'):
+        timestr = timestr[2:]
+    return timestr
 
+
+def timestr_to_datetime(timestr: str, time_type: str = "time_point"):
     # 服务器时间落后北京时间 8 小时
     now = datetime.now(tz=TimeZoneConfig.local_time_zone)
     now = now.astimezone(tz=TimeZoneConfig.dest_time_zone)
     try:
-        timestr = _remove_spaces(timestr)
+        timestr = timestr_preprocess(timestr)
         time = jionlp.parse_time(timestr, time_base=now, time_type=time_type)
     except Exception as e:
         logger.error(e)
@@ -81,10 +90,12 @@ async def get_timing_and_finish(state: T_State, event_time_str: str = ArgPlainTe
         event_time = timestr_to_datetime(event_time_str)
     except Exception:
         state['try_count'] += 1
-        if state['try_count'] < 3:
+        if state['try_count'] < event_remind_config.max_try_count:
+            chances = event_remind_config.max_try_count - state['try_count']
             reject_msg = Message([
                 MessageSegment.text(f"时间 '{event_time_str}' 解析失败！请重新输入时间。\n"),
-                MessageSegment.text(f"示例：明天下午5点，2小时后，9号上午10点"),
+                MessageSegment.text(f"示例：明天下午5点，2小时后，9号上午10点。\n"),
+                MessageSegment.text(f"您还有 {chances} 次输入机会。"),
             ])
             await event_rgst.reject(reject_msg)
         else:
@@ -111,10 +122,12 @@ async def get_lead_time_and_finish(event: Event, state: T_State, lead_time_str: 
         lead_time = timestr_to_datetime(lead_time_str, time_type='time_delta')
     except Exception:
         state['try_count'] += 1
-        if state['try_count'] < 3:
+        if state['try_count'] < event_remind_config.max_try_count:
+            chances = event_remind_config.max_try_count - state['try_count']
             reject_msg = Message([
                 MessageSegment.text(f"时间 '{lead_time_str}' 解析失败！请重新输入时间。\n"),
-                MessageSegment.text(f"示例：1天，2小时，1个半小时，15分钟"),
+                MessageSegment.text(f"示例：1天，2小时，1个半小时，15分钟。\n"),
+                MessageSegment.text(f"您还有 {chances} 次输入机会。"),
             ])
             await event_rgst.reject(reject_msg)
         else:

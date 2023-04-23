@@ -17,7 +17,19 @@ event_cmd_group = CommandGroup("event", rule=event_rules, priority=10)
 
 event_remind_config = Config.parse_obj(get_driver().config)
 
+special_chinese_char_map_dict = {
+    "，": ",",
+    "：": ":",
+    "、": ",",
+    "？": "?",
+    "；": ";",
+    "。": ".",
+    "“": "\"",
+    "”": "\""
+}
+
 
 from .event_list import event_base_matcher, event_lister
 from .event_register import event_rgst
+from .event_delete import event_del
 from .event_reminder import scheduler

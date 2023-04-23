@@ -15,7 +15,7 @@ from nonebot.adapters.console import Adapter as ConsoleAdapter
 from nonebot.adapters.onebot.v11 import Adapter as OnebotAdapter
 
 bot_config = {
-    "superusers": {123456},
+    "superusers": {773540317},
     "command_start": {'/'},
     "host": '127.0.0.1',
     "port": 11451
@@ -48,7 +48,8 @@ logger_format: str = (
     "{message}"
 )
 
-now = datetime.now()
+# 服务器落后北京时间 8h
+now = datetime.now() + timedelta(hours=8)
 now = datetime.strftime(now, "%Y-%m-%d_%H:%M:%S")
 logger.remove(logger_id)
 logger.add(
