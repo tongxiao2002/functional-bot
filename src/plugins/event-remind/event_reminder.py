@@ -37,10 +37,10 @@ async def send_event_reminder_msgs():
     for user_id in os.listdir(events_data_dir):
         event_file = os.path.join(events_data_dir, user_id, "events.json")
         if not os.path.isfile(event_file):
-            return
+            continue
         events = json.load(open(event_file, "r"))
         if len(events) == 0:
-            return
+            continue
         # new_events is used to save the events after sending msgs
         new_events = {}
         for k, event in events.items():
@@ -61,10 +61,11 @@ async def send_event_reminder_msgs():
             msg = Message([
                 MessageSegment.text(f"您注册的事件 {event['event_content']} 将于 {event['event_time']} 发生，请不要忘记！")
             ])
+            logger.info(f"sending message to user {user_id} successfully")
             await bot.send_msg(
                 message_type='private',
                 user_id=int(user_id),
-                message=Message(msg)
+                message=msg
             )
         # no events to delete
         if len(new_events) != len(events):

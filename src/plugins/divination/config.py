@@ -12,12 +12,8 @@ from dataclasses import dataclass
 
 
 class Config(BaseModel):
-    event_remind_plugin_enabled: bool = True
-    events_data_dir: str = 'data/events'
-    plans_data_dir: str = 'data/plans'
-    # schduler trigger interval
-    interval: int = 1
-    max_try_count: int = 3
+    zhouxunwang_key: str = r"123456"
+    dinivation_data_dir: str = "data/divination"
 
 
 @dataclass
@@ -25,7 +21,3 @@ class TimeZoneConfig:
     local_time_zone = pytz.timezone('UTC')
     dest_time_zone = pytz.timezone('Etc/GMT-8')
     datetime_format = "%Y-%m-%d %H:%M:%S"
-
-
-class EmailConfig(BaseModel):
-    pass

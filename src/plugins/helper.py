@@ -24,6 +24,8 @@ async def send_help_msgs(args: Message = CommandArg()):
         MessageSegment.text("以下指令都需要 私聊机器人 或在 群聊中@机器人 输入：\n"),
         MessageSegment.text("/help 获取机器人使用指南\n\n"),
         MessageSegment.text("/weather 查询当天某地天气\n\n"),
+        MessageSegment.text("/jrrp 占卜 --- 今日人品\n"),
+        MessageSegment.text("/黄历 占卜 --- 今日黄历\n\n"),
         MessageSegment.text("/event 查询已注册的事件\n"),
         MessageSegment.text("/event.list 查询已注册的事件\n"),
         MessageSegment.text("/event.register 注册待提醒的事件\n"),
