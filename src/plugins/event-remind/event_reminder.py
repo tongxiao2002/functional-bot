@@ -10,18 +10,17 @@ import os
 import json
 import pytz
 import email
-from nonebot import require
 from nonebot import get_bot
 from nonebot.log import logger
 from datetime import datetime, timedelta
 from nonebot.adapters.onebot.v11.bot import Bot
-from nonebot.adapters.onebot.v11 import PrivateMessageEvent, Message, MessageSegment
+from nonebot.adapters.onebot.v11 import Message, MessageSegment
 from .config import TimeZoneConfig
-
-require("nonebot_plugin_apscheduler")
-
-from nonebot_plugin_apscheduler import scheduler
 from . import event_remind_config
+
+from nonebot import require
+require("nonebot_plugin_apscheduler")
+from nonebot_plugin_apscheduler import scheduler
 
 
 start_date = datetime.now().replace(minute=0, second=0, microsecond=0, tzinfo=TimeZoneConfig.local_time_zone)
@@ -61,7 +60,7 @@ async def send_event_reminder_msgs():
             msg = Message([
                 MessageSegment.text(f"您注册的事件 {event['event_content']} 将于 {event['event_time']} 发生，请不要忘记！")
             ])
-            logger.info(f"sending message to user {user_id} successfully")
+            logger.info(f"sending event message to user {user_id} successfully")
             await bot.send_msg(
                 message_type='private',
                 user_id=int(user_id),

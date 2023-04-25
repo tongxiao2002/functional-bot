@@ -10,14 +10,12 @@ import pytz
 import random
 from datetime import datetime
 from nonebot import on_command
-from nonebot.rule import to_me, Rule
 # from nonebot.adapters.console import Message, MessageSegment, Event
 from nonebot.adapters.onebot.v11 import Message, MessageSegment, Event
 from .config import TimeZoneConfig
 from . import divination_rules
 
 
-rules = to_me()
 divination_jrrp = on_command("jrrp", aliases={'今日人品'}, priority=10, rule=divination_rules)
 
 rp_to_str = {

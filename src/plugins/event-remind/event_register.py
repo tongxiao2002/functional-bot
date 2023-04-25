@@ -88,7 +88,8 @@ async def get_timing_and_finish(state: T_State, event_time_str: str = ArgPlainTe
     state['try_count'] = state.get('try_count', 0)
     try:
         event_time = timestr_to_datetime(event_time_str)
-    except Exception:
+    except Exception as e:
+        logger.warning(e)
         state['try_count'] += 1
         if state['try_count'] < event_remind_config.max_try_count:
             chances = event_remind_config.max_try_count - state['try_count']
@@ -120,7 +121,8 @@ async def get_lead_time_and_finish(event: Event, state: T_State, lead_time_str: 
     state['try_count'] = state.get('try_count', 0)
     try:
         lead_time = timestr_to_datetime(lead_time_str, time_type='time_delta')
-    except Exception:
+    except Exception as e:
+        logger.warning(e)
         state['try_count'] += 1
         if state['try_count'] < event_remind_config.max_try_count:
             chances = event_remind_config.max_try_count - state['try_count']
@@ -171,7 +173,6 @@ async def get_lead_time_and_finish(event: Event, state: T_State, lead_time_str: 
     curr_events.update(new_event)
     json.dump(curr_events, open(event_file, "w"), ensure_ascii=False, indent=4)
 
-    state['try_count'] = 0
     reply_msg = Message([
         MessageSegment.text(f"事件 {state['event_content']} 注册成功！\n"),
         MessageSegment.text(f"事件将于 {event_time_str} 发生，\n且我将于 {lead_time_str} 时提醒您."),

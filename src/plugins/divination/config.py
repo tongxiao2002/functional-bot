@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 
 class Config(BaseModel):
-    zhouxunwang_key: str = r"123456"
+    zhouxunwang_key: str = r"U%2B%2FG%2FIYyT9j%2BhpKN94ozRG7FPgTgsJeZ%2Fpxz7%2Fo"
     dinivation_data_dir: str = "data/divination"
 
 

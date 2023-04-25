@@ -37,7 +37,7 @@ async def list_events(event: Event, state: T_State, args: Message = CommandArg()
 
     event_idx_to_uuid = {}
     reply_msgs = [
-        MessageSegment.text("以下为您已注册的事件：")
+        MessageSegment.text("以下为您已注册的事件：\n")
     ]
     for idx, (uuid, event) in enumerate(events.items()):
         msg_for_event = [
@@ -62,7 +62,7 @@ async def delete_event(event: Event, state: T_State, index: str = ArgPlainText()
             index = index[:-1]
         index = int(index)
     except Exception as e:
-        logger.error(e)
+        logger.warning(e)
         state['try_count'] += 1
         if state['try_count'] < event_remind_config.max_try_count:
             chances = event_remind_config.max_try_count - state['try_count']

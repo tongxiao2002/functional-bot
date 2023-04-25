@@ -22,7 +22,7 @@ bot_config = {
 }
 
 apscheduler_config = {
-    "apscheduler.timezone": "Asia/Shanghai",
+    "apscheduler.timezone": "UTC",
     "apscheduler.executors.processpool": {
         "type": "processpool",
         "max_workers": "61"
@@ -32,7 +32,7 @@ apscheduler_config = {
     #     "max_workers": "8"
     # },
     "apscheduler.job_defaults.coalesce": "false",
-    "apscheduler.job_defaults.misfire_grace_time": "60",
+    "apscheduler.job_defaults.misfire_grace_time": "30",
     "apscheduler.job_defaults.max_instances": "61"
 }
 
