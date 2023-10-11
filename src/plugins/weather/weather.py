@@ -48,10 +48,17 @@ async def query_weather(city: str = ArgPlainText()):
         except Exception as e:
             logger.error(e)
             reply_msgs = Message([
-                MessageSegment.text("今天查询次数已经到达上限。")
+                MessageSegment.text("今天查询不同城市次数已经到达上限。")
             ])
             await weather_matcher.finish(reply_msgs)
         weather_data = json.loads(resp.content)
+        if not weather_data['result']:
+            # result is None
+            reply_msgs = Message([
+                MessageSegment.text(weather_data['reason']),
+            ])
+            await weather_matcher.finish(reply_msgs)
+
         json.dump(weather_data, open(weather_file, "w"), ensure_ascii=False, indent=4)
     weather_data = weather_data['result']['realtime']
     # replace None with ""

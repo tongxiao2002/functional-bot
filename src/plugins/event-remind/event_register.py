@@ -51,7 +51,7 @@ def timestr_to_datetime(timestr: str, time_type: str = "time_point"):
         raise
 
     if time_type == 'time_point':
-        assert time['definition'] == 'accurate'
+        # assert time['definition'] == 'accurate'
         dt = datetime.strptime(time['time'][0], "%Y-%m-%d %H:%M:%S")
         return dt
     elif time_type == 'time_delta':

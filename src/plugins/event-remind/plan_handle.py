@@ -219,15 +219,15 @@ async def get_lead_time_and_finish(event: Event, state: T_State, mention_times_s
     if mention_times_str == "不需要":
         if state['plan_time'] == None:
             reply_msg = Message([
-                MessageSegment.text(f"计划 {state['plan_content']} 注册成功！"),
-                MessageSegment.text(f"您的计划为长期计划，"),
-                MessageSegment.text(f"且我不会提醒您。")
+                MessageSegment.text(f"计划 {state['plan_content']} 注册成功！\n\n"),
+                MessageSegment.text(f"您的计划为长期计划。\n\n"),
+                MessageSegment.text(f"我不会提醒您。")
             ])
         else:
             reply_msg = Message([
-                MessageSegment.text(f"计划 {state['plan_content']} 注册成功！"),
-                MessageSegment.text(f"您计划将于 {state['plan_time']} 前完成，"),
-                MessageSegment.text(f"且我不会提醒您。")
+                MessageSegment.text(f"计划 {state['plan_content']} 注册成功！\n\n"),
+                MessageSegment.text(f"您计划将于 {state['plan_time']} 前完成。\n\n"),
+                MessageSegment.text(f"我不会提醒您。")
             ])
         save_new_plan(plan_file, {str(uuid.uuid4()): new_plan})
         await plan_rgst.finish(reply_msg)
@@ -270,12 +270,12 @@ async def get_lead_time_and_finish(event: Event, state: T_State, mention_times_s
         scheduler.add_job(plan_mention, args=[user_id], trigger=triggers, id=f"plan_{user_id}")
 
     if new_plan['plan_time'] is None:
-        plan_time_msg = f"您的计划为长期计划。\n"
+        plan_time_msg = f"您的计划为长期计划。\n\n"
     else:
-        plan_time_msg = f"您计划将于 {new_plan['plan_time']} 前完成。\n"
+        plan_time_msg = f"您计划将于 {new_plan['plan_time']} 前完成。\n\n"
 
     reply_msg = Message([
-        MessageSegment.text(f"计划 {state['plan_content']} 注册成功！"),
+        MessageSegment.text(f"计划 {state['plan_content']} 注册成功！\n\n"),
         MessageSegment.text(plan_time_msg),
         MessageSegment.text(f"我将在每天的以下时间点提醒您：{'，'.join(new_plan['mention_times'])}")
     ])
